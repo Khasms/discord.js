@@ -398,7 +398,7 @@ export class Channel extends Base {
   public readonly createdTimestamp: number;
   public deleted: boolean;
   public id: Snowflake;
-  public readonly partial: false;
+  public readonly partial: boolean;
   public type: keyof typeof ChannelTypes;
   public delete(): Promise<Channel>;
   public fetch(force?: boolean): Promise<Channel>;
@@ -831,6 +831,7 @@ export class GuildChannel extends Channel {
   public name: string;
   public readonly parent: CategoryChannel | null;
   public parentId: Snowflake | null;
+  public readonly partial: false;
   public permissionOverwrites: PermissionOverwriteManager;
   public readonly permissionsLocked: boolean | null;
   public readonly position: number;
@@ -1497,6 +1498,7 @@ export class PartialGroupDMChannel extends Channel {
   public name: string;
   public icon: string | null;
   public iconURL(options?: StaticImageURLOptions): string | null;
+  public readonly partial: true;
 }
 
 export class PermissionOverwrites extends Base {
@@ -3283,7 +3285,10 @@ export interface ClientEvents {
   message: [message: Message];
   messageCreate: [message: Message];
   messageDelete: [message: Message | PartialMessage];
-  messageReactionRemoveAll: [message: Message | PartialMessage, reactions: Collection<string | Snowflake, MessageReaction>];
+  messageReactionRemoveAll: [
+    message: Message | PartialMessage,
+    reactions: Collection<string | Snowflake, MessageReaction>,
+  ];
   messageReactionRemoveEmoji: [reaction: MessageReaction | PartialMessageReaction];
   messageDeleteBulk: [messages: Collection<Snowflake, Message | PartialMessage>];
   messageReactionAdd: [reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser];
